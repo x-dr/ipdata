@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react';
 import { Input, Button, Card, message } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import TencentMapWithHeightToggle from './components/TencentMapWithHeightToggle';
+import LeafletMap from './components/LeafletMap';
 
 function App() {
   const [ipInput, setIpInput] = useState('');
   const [ipData, setIpData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [showMap, setShowMap] = useState(false);
+  const [useLeaflet, setUseLeaflet] = useState(false);
 
   // 页面加载时获取本地 IP 信息
   useEffect(() => {
@@ -50,6 +52,8 @@ function App() {
           colo: '',
         });
         setShowMap(true);
+        // 判断是否使用 Leaflet (countryCodeAlpha2 不是 CN)
+        setUseLeaflet(data.countryCodeAlpha2 !== 'CN');
       } else {
         message.error('获取本地IP信息失败');
       }
@@ -108,6 +112,8 @@ function App() {
 
         if (data.lat && data.lon) {
           setShowMap(true);
+          // 判断是否使用 Leaflet (countryCode 不是 CN)
+          setUseLeaflet(data.countryCode !== 'CN');
         } else {
           setShowMap(false);
         }
@@ -328,11 +334,19 @@ function App() {
           {/* 地图 */}
           {showMap && ipData && (
             <div className="animate-fadeIn">
-              <TencentMapWithHeightToggle
-                latitude={ipData.latitude}
-                longitude={ipData.longitude}
-                height={100}
-              />
+              {useLeaflet ? (
+                <LeafletMap
+                  latitude={ipData.latitude}
+                  longitude={ipData.longitude}
+                  locationName={ipData.city ||  ipData.country || 'Location'}
+                />
+              ) : (
+                <TencentMapWithHeightToggle
+                  latitude={ipData.latitude}
+                  longitude={ipData.longitude}
+                  height={100}
+                />
+              )}
             </div>
           )}
         </Card>
