@@ -38,7 +38,7 @@ const LeafletMap = ({ latitude, longitude, locationName = 'Location' }) => {
     const newMap = L.map(mapContainer).setView([latitude, longitude], 10);
 
     // 添加地图图层
-    L.tileLayer('https://osm.451024.xyz/{z}/{x}/{y}.png', {
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
       maxZoom: 18,
     }).addTo(newMap);

@@ -70,10 +70,10 @@ const TencentMapWithHeightToggle = ({ latitude, longitude, height = 0 }) => {
           gap: 10,
         }}
       >
-        <Button icon={<ArrowUpOutlined />} onClick={() => setHeight(true)}>
+        <Button icon={<ArrowUpOutlined />} onClick={() => setHeight(true)} style={{ borderRadius: 'var(--radius-button)' }}>
           增加高度
         </Button>
-        <Button icon={<ArrowDownOutlined />} onClick={() => setHeight(false)}>
+        <Button icon={<ArrowDownOutlined />} onClick={() => setHeight(false)} style={{ borderRadius: 'var(--radius-button)' }}>
           去除高度
         </Button>
       </div>

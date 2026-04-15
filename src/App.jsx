@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Input, Button, Card, message } from 'antd';
+import { Input, Button, Card, ConfigProvider, message } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import TencentMapWithHeightToggle from './components/TencentMapWithHeightToggle';
 import LeafletMap from './components/LeafletMap';
+import './App.css';
 
 function App() {
   const [ipInput, setIpInput] = useState('');
@@ -134,15 +135,26 @@ function App() {
 
 
   return (
-    <div className="min-h-screen bg-gray-100 py-8 px-4">
+    <ConfigProvider
+      theme={{
+        token: {
+          colorPrimary: '#1b61c9',
+          colorText: '#181d26',
+          colorBorder: '#e0e2e6',
+          borderRadius: 12,
+          fontFamily: "'Haas', -apple-system, system-ui, 'Segoe UI', Roboto, sans-serif",
+        },
+      }}
+    >
+    <div className="min-h-screen py-8 px-4" style={{ background: 'var(--theme_surface-light)' }}>
       <div className="max-w-4xl mx-auto">
-        <Card className="shadow-lg">
-          <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">
+        <div className="app-card-outer">
+          <h1 className="page-title">
             IP数据查询
           </h1>
 
           {/* 搜索框 */}
-          <div className="flex gap-2 mb-6">
+          <div className="search-bar">
             <Input
               size="large"
               placeholder="请输入IP地址"
@@ -169,50 +181,50 @@ function App() {
               className="mb-6 animate-fadeIn"
             >
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div className="flex border-b border-gray-200 py-2">
-                  <span className="font-semibold text-gray-600 w-32">IP地址:</span>
-                  <span className="text-gray-800">{ipData.ip}</span>
+                <div className="data-row">
+                  <span className="data-label">IP地址:</span>
+                  <span className="data-value">{ipData.ip}</span>
                 </div>
 
                 {ipData.type === 'query' && ipData.hostname && (
-                  <div className="flex border-b border-gray-200 py-2">
-                    <span className="font-semibold text-gray-600 w-32">主机名:</span>
-                    <span className="text-gray-800">{ipData.hostname}</span>
+                  <div className="data-row">
+                    <span className="data-label">主机名:</span>
+                    <span className="data-value">{ipData.hostname}</span>
                   </div>
                 )}
 
-                <div className="flex border-b border-gray-200 py-2">
-                  <span className="font-semibold text-gray-600 w-32">国家:</span>
-                  <span className="text-gray-800">{ipData.country}</span>
+                <div className="data-row">
+                  <span className="data-label">国家:</span>
+                  <span className="data-value">{ipData.country}</span>
                 </div>
 
-                <div className="flex border-b border-gray-200 py-2">
-                  <span className="font-semibold text-gray-600 w-32">地区:</span>
-                  <span className="text-gray-800">{ipData.region}</span>
+                <div className="data-row">
+                  <span className="data-label">地区:</span>
+                  <span className="data-value">{ipData.region}</span>
                 </div>
 
-                <div className="flex border-b border-gray-200 py-2">
-                  <span className="font-semibold text-gray-600 w-32">城市:</span>
-                  <span className="text-gray-800">{ipData.city}</span>
+                <div className="data-row">
+                  <span className="data-label">城市:</span>
+                  <span className="data-value">{ipData.city}</span>
                 </div>
 
                 {ipData.type === 'local' && (
                   <>
-                    <div className="flex border-b border-gray-200 py-2">
-                      <span className="font-semibold text-gray-600 w-32">邮编:</span>
-                      <span className="text-gray-800">{ipData.postalCode}</span>
+                    <div className="data-row">
+                      <span className="data-label">邮编:</span>
+                      <span className="data-value">{ipData.postalCode}</span>
                     </div>
-                    <div className="flex border-b border-gray-200 py-2">
-                      <span className="font-semibold text-gray-600 w-32">ASN:</span>
-                      <span className="text-gray-800">{ipData.asn}</span>
+                    <div className="data-row">
+                      <span className="data-label">ASN:</span>
+                      <span className="data-value">{ipData.asn}</span>
                     </div>
-                    <div className="flex border-b border-gray-200 py-2">
-                      <span className="font-semibold text-gray-600 w-32">组织:</span>
-                      <span className="text-gray-800">{ipData.asOrganization}</span>
+                    <div className="data-row">
+                      <span className="data-label">组织:</span>
+                      <span className="data-value">{ipData.asOrganization}</span>
                     </div>
-                    <div className="flex border-b border-gray-200 py-2">
-                      <span className="font-semibold text-gray-600 w-32">数据中心:</span>
-                      <span className="text-gray-800">{ipData.colo}</span>
+                    <div className="data-row">
+                      <span className="data-label">数据中心:</span>
+                      <span className="data-value">{ipData.colo}</span>
                     </div>
                   </>
                 )}
@@ -220,112 +232,112 @@ function App() {
                 {ipData.type === 'query' && (
                   <>
                     {ipData.countryCode && (
-                      <div className="flex border-b border-gray-200 py-2">
-                        <span className="font-semibold text-gray-600 w-32">国家代码:</span>
-                        <span className="text-gray-800">{ipData.countryCode}</span>
+                      <div className="data-row">
+                        <span className="data-label">国家代码:</span>
+                        <span className="data-value">{ipData.countryCode}</span>
                       </div>
                     )}
                     {ipData.regionCode && (
-                      <div className="flex border-b border-gray-200 py-2">
-                        <span className="font-semibold text-gray-600 w-32">地区代码:</span>
-                        <span className="text-gray-800">{ipData.regionCode}</span>
+                      <div className="data-row">
+                        <span className="data-label">地区代码:</span>
+                        <span className="data-value">{ipData.regionCode}</span>
                       </div>
                     )}
                     {ipData.district && (
-                      <div className="flex border-b border-gray-200 py-2">
-                        <span className="font-semibold text-gray-600 w-32">区/县:</span>
-                        <span className="text-gray-800">{ipData.district}</span>
+                      <div className="data-row">
+                        <span className="data-label">区/县:</span>
+                        <span className="data-value">{ipData.district}</span>
                       </div>
                     )}
                     {ipData.continent && (
-                      <div className="flex border-b border-gray-200 py-2">
-                        <span className="font-semibold text-gray-600 w-32">大洲:</span>
-                        <span className="text-gray-800">{ipData.continent}</span>
+                      <div className="data-row">
+                        <span className="data-label">大洲:</span>
+                        <span className="data-value">{ipData.continent}</span>
                       </div>
                     )}
                     {ipData.continentCode && (
-                      <div className="flex border-b border-gray-200 py-2">
-                        <span className="font-semibold text-gray-600 w-32">大洲代码:</span>
-                        <span className="text-gray-800">{ipData.continentCode}</span>
+                      <div className="data-row">
+                        <span className="data-label">大洲代码:</span>
+                        <span className="data-value">{ipData.continentCode}</span>
                       </div>
                     )}
                     {ipData.postal && (
-                      <div className="flex border-b border-gray-200 py-2">
-                        <span className="font-semibold text-gray-600 w-32">邮编:</span>
-                        <span className="text-gray-800">{ipData.postal}</span>
+                      <div className="data-row">
+                        <span className="data-label">邮编:</span>
+                        <span className="data-value">{ipData.postal}</span>
                       </div>
                     )}
                     {ipData.timezone && (
-                      <div className="flex border-b border-gray-200 py-2">
-                        <span className="font-semibold text-gray-600 w-32">时区:</span>
-                        <span className="text-gray-800">{ipData.timezone}</span>
+                      <div className="data-row">
+                        <span className="data-label">时区:</span>
+                        <span className="data-value">{ipData.timezone}</span>
                       </div>
                     )}
                     {ipData.offset !== undefined && (
-                      <div className="flex border-b border-gray-200 py-2">
-                        <span className="font-semibold text-gray-600 w-32">时区偏移:</span>
-                        <span className="text-gray-800">{ipData.offset}</span>
+                      <div className="data-row">
+                        <span className="data-label">时区偏移:</span>
+                        <span className="data-value">{ipData.offset}</span>
                       </div>
                     )}
                     {ipData.currency && (
-                      <div className="flex border-b border-gray-200 py-2">
-                        <span className="font-semibold text-gray-600 w-32">货币:</span>
-                        <span className="text-gray-800">{ipData.currency}</span>
+                      <div className="data-row">
+                        <span className="data-label">货币:</span>
+                        <span className="data-value">{ipData.currency}</span>
                       </div>
                     )}
                     {ipData.org && (
-                      <div className="flex border-b border-gray-200 py-2">
-                        <span className="font-semibold text-gray-600 w-32">组织:</span>
-                        <span className="text-gray-800">{ipData.org}</span>
+                      <div className="data-row">
+                        <span className="data-label">组织:</span>
+                        <span className="data-value">{ipData.org}</span>
                       </div>
                     )}
                     {ipData.as && (
-                      <div className="flex border-b border-gray-200 py-2">
-                        <span className="font-semibold text-gray-600 w-32">AS:</span>
-                        <span className="text-gray-800">{ipData.as}</span>
+                      <div className="data-row">
+                        <span className="data-label">AS:</span>
+                        <span className="data-value">{ipData.as}</span>
                       </div>
                     )}
                     {ipData.asname && (
-                      <div className="flex border-b border-gray-200 py-2">
-                        <span className="font-semibold text-gray-600 w-32">AS名称:</span>
-                        <span className="text-gray-800">{ipData.asname}</span>
+                      <div className="data-row">
+                        <span className="data-label">AS名称:</span>
+                        <span className="data-value">{ipData.asname}</span>
                       </div>
                     )}
                     {ipData.isp && (
-                      <div className="flex border-b border-gray-200 py-2">
-                        <span className="font-semibold text-gray-600 w-32">ISP:</span>
-                        <span className="text-gray-800">{ipData.isp}</span>
+                      <div className="data-row">
+                        <span className="data-label">ISP:</span>
+                        <span className="data-value">{ipData.isp}</span>
                       </div>
                     )}
                     {ipData.hosting !== undefined && (
-                      <div className="flex border-b border-gray-200 py-2">
-                        <span className="font-semibold text-gray-600 w-32">托管服务:</span>
-                        <span className="text-gray-800">{ipData.hosting ? '是' : '否'}</span>
+                      <div className="data-row">
+                        <span className="data-label">托管服务:</span>
+                        <span className="data-value">{ipData.hosting ? '是' : '否'}</span>
                       </div>
                     )}
                     {ipData.proxy !== undefined && (
-                      <div className="flex border-b border-gray-200 py-2">
-                        <span className="font-semibold text-gray-600 w-32">代理:</span>
-                        <span className="text-gray-800">{ipData.proxy ? '是' : '否'}</span>
+                      <div className="data-row">
+                        <span className="data-label">代理:</span>
+                        <span className="data-value">{ipData.proxy ? '是' : '否'}</span>
                       </div>
                     )}
                     {ipData.mobile !== undefined && (
-                      <div className="flex border-b border-gray-200 py-2">
-                        <span className="font-semibold text-gray-600 w-32">移动网络:</span>
-                        <span className="text-gray-800">{ipData.mobile ? '是' : '否'}</span>
+                      <div className="data-row">
+                        <span className="data-label">移动网络:</span>
+                        <span className="data-value">{ipData.mobile ? '是' : '否'}</span>
                       </div>
                     )}
                   </>
                 )}
 
-                <div className="flex border-b border-gray-200 py-2">
-                  <span className="font-semibold text-gray-600 w-32">纬度:</span>
-                  <span className="text-gray-800">{ipData.latitude}</span>
+                <div className="data-row">
+                  <span className="data-label">纬度:</span>
+                  <span className="data-value">{ipData.latitude}</span>
                 </div>
 
-                <div className="flex border-b border-gray-200 py-2">
-                  <span className="font-semibold text-gray-600 w-32">经度:</span>
-                  <span className="text-gray-800">{ipData.longitude}</span>
+                <div className="data-row">
+                  <span className="data-label">经度:</span>
+                  <span className="data-value">{ipData.longitude}</span>
                 </div>
               </div>
             </Card>
@@ -333,7 +345,7 @@ function App() {
 
           {/* 地图 */}
           {showMap && ipData && (
-            <div className="animate-fadeIn">
+            <div className="animate-fadeIn map-container">
               {useLeaflet ? (
                 <LeafletMap
                   latitude={ipData.latitude}
@@ -349,9 +361,10 @@ function App() {
               )}
             </div>
           )}
-        </Card>
+        </div>
       </div>
     </div>
+    </ConfigProvider>
   );
 }
 

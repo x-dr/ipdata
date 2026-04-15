@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "skills": {
+    "airtable": {
+      "source": "x-dr/skills",
+      "sourceType": "github",
+      "computedHash": "f4f025a85bdd2114132c96a8134cf57b0592eccaf7acc499a3f04f7e70027035"
+    }
+  }
+}

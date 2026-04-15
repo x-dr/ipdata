@@ -1,5 +1,64 @@
 @import "tailwindcss";
 
+/* ===== Airtable Design Tokens ===== */
+:root {
+  /* Text */
+  --theme_text-primary: #181d26;
+  --theme_text-weak: rgba(4, 14, 32, 0.69);
+  --theme_text-secondary-active: rgba(7, 12, 20, 0.82);
+
+  /* Surfaces */
+  --theme_surface-primary: #ffffff;
+  --theme_surface-light: #f8fafc;
+
+  /* Brand */
+  --theme_brand-primary: #1b61c9;
+  --theme_brand-link: #254fad;
+
+  /* Feedback */
+  --theme_success-text: #006400;
+
+  /* Borders */
+  --theme_border-default: #e0e2e6;
+
+  /* Shadows */
+  --theme_shadow-blue: rgba(0,0,0,0.32) 0px 0px 1px,
+                        rgba(0,0,0,0.08) 0px 0px 2px,
+                        rgba(45,127,249,0.28) 0px 1px 3px,
+                        rgba(0,0,0,0.06) 0px 0px 0px 0.5px inset;
+  --theme_shadow-soft: rgba(15, 48, 106, 0.05) 0px 0px 20px;
+
+  /* Spacing (8px base) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 40px;
+  --space-8: 48px;
+
+  /* Radius */
+  --radius-sm: 2px;
+  --radius-button: 12px;
+  --radius-card: 16px;
+  --radius-section: 24px;
+  --radius-lg: 32px;
+  --radius-circle: 50%;
+
+  /* Font */
+  --font-primary: 'Haas', -apple-system, system-ui, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* ===== Base Styles ===== */
+body {
+  font-family: var(--font-primary);
+  color: var(--theme_text-primary);
+  background: var(--theme_surface-light);
+  letter-spacing: 0.18px;
+  line-height: 1.35;
+}
+
 /* Leaflet 地图样式 */
 #map {
   z-index: 0;
@@ -9,28 +68,27 @@
 @keyframes fadeIn {
   from {
     opacity: 0;
+    transform: translateY(8px);
   }
   to {
     opacity: 1;
+    transform: translateY(0);
   }
 }
 
 .animate-fadeIn {
-  animation: fadeIn 0.5s ease-in;
+  animation: fadeIn 0.4s ease-out;
 }
-
 
 ::-webkit-scrollbar {
-  width: 2px; /* 设置滚动条宽度 */
+  width: 4px;
 }
 
-/* 滚动条轨道 */
 ::-webkit-scrollbar-track {
-  background-color: #ffffff; /* 设置滚动条轨道的背景颜色 */
+  background-color: var(--theme_surface-primary);
 }
 
-/* 滚动条滑块 */
 ::-webkit-scrollbar-thumb {
-  background-color: #c2c2c2; /* 设置滚动条滑块的背景颜色 */
-  border-radius: 10px; /* 设置滚动条滑块的圆角 */
+  background-color: var(--theme_border-default);
+  border-radius: 10px;
 }
